@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class=" box1 box2 box3"></div>
+<div class=" box1 box2 "></div>
+<div class=" box1 "></div>
+<div class=" box2 "></div>
+<div class=" box2 box3"></div>
+</body>
+</html>
+<script>
+    //根据单个类名获取元素
+    //根据单个类型获取元素   getOneClass()
+    //根据多个类名获取元素  getByClass
+    // -
+    //判断元素是否有这个类名    hasClass
+    //给某个元素添加一个或多个类名  addClass
+    //删除某个元素一个或者多个类名   removeClass
+
+    //获取某个元素下指定标记名的子元素  getChild
+    var getOneClass=function (strClass){
+
+    }
+
+
+    //把页面上类名是box1元素获取到,最终放入数组返回
+    //筛选出类名有box1的元素
+    var getOneClass=function (strClass,context){
+        context=context||document ;//设定范围
+        var eles=context.getElementsByTagName('*');//获取所有的子元素
+        var ary=[];
+        //拿到每个子元素 ,并且看下这个子元素是否包含类名strClass
+
+        // var reg=/(^| +)strClass( +|$)/; //原本
+        var reg=new RegExp('(^| +)'+strClass+'( +|$)');
+        for (var i = 0; i < eles.length; i++) {
+            if(reg.test(eles[i].className)){
+                ary.push(eles[i])
+            }
+        }
+        return ary ;
+
+    };
+    console.log(getOneClass('box1'));
+</script>

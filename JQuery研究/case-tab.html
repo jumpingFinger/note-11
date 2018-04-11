@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <!--IMPORT CSS-->
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/tab.css">
+</head>
+<body>
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        1
+    </div>
+    <div class="con">
+        2
+    </div>
+    <div class="con">
+        3
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+        <li>科技</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+        </ul>
+    </div>
+</div>
+
+<!--IMPORT JS-->
+<script src="js/jquery-1.11.3.min.js"></script>
+<!-- <script src="js/pluginTab.min.js"></script> -->
+<script src="js/tab.js"></script>
+<script>
+    $('.tabBox').each(function (index) {
+        if (index === 0) {
+            $(this).pluginTab();
+        }
+
+        if (index === 1) {
+            $(this).pluginTab({
+                initIndex: 1
+            });
+        }
+
+        if (index === 2) {
+            $(this).pluginTab({
+                initIndex: 2,
+                eventType: 'mouseover'
+            });
+        }
+    });
+</script>
+</body>
+</html>

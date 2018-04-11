@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+~function () {
+    var utils = (function () {
+        //类数组转换为数组
+        function toArray(likeAry) {
+            var ary = [];
+            try {
+                ary = [].slice.call(likeAry, 0)
+            } catch (e) {
+                for (var i = 0; i < likeAry.length; i++) {
+                    ary[i] = likeAry[i];
+                }
+            }
+            return ary;
+        }
+
+        function toJSON(jsonStr) {
+            return 'JSON' in window ? JSON.parse(jsonStr) : eval("(" + jsonStr + ")");
+        }
+
+        return {
+            toArray: toArray,
+            toJSON: toJSON
+        }
+    })();
+    var obj=null;
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', 'data.json', false);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && /^2\d{2}$/.test(xhr.status)) {
+            obj = utils.toJSON(xhr.responseText);
+            console.log(obj);
+        }
+    };
+    xhr.send(null);
+    // 缺点 : 动态添加的数据不会有绑定前的那些效果
+    // var str="";  //我们要是写的null 网页上就会多一个null的li行
+    // for (var i = 0; i < obj.length; i++) {
+    //        str+= '<li>'+obj[i]['name']+'</li>>';
+    // }
+    // document.body.innerHTML=str;
+
+
+    for (var n = 0; n < obj.length; n++) {
+        //每次遍历时都应该创建一个li
+        var oLi=document.createElement('li');
+        oLi.innerHTML=obj[n].name;
+        document.body.appendChild(oLi);
+    }
+
+    var frg=document.createDocumentFragment();
+    for (var i = 0; i < frg.length; i++) {
+        var oLi=document.createElement('li');
+        oLi.innerHTML=data[i].name;
+        frg.appendChild(oLi);//每次创建li先放入文档碎片里(相当于先存入内存里)
+    }
+    oUl.appendChild(frg);//文档碎片的内容是一次添加到页面中的
+}();
+
+
+</script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <!--<link rel="stylesheet/less" href="css/index.less">-->
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<header>
+    <h3>
+        <a href="#">
+            <img src="./images/logo.png" alt="">
+        </a>
+    </h3>
+    <a href="">
+        <span>International</span>
+       <div class="mask"></div>
+    </a>
+    <a href="">
+        <span>论坛</span>
+        <div class="mask"></div>
+    </a>
+    <a href="">
+        <span>下载</span>
+        <div class="mask"></div>
+    </a>
+    <a href="">
+        <span>首页</span>
+        <div class="mask"></div>
+    </a>
+</header>
+</body>
+</html>
+<script>
+    //当less代码发生改变,间隔一段时间自动刷新
+    var less={
+        env:'development',//开发环境
+        poll:1000//监视代码的间隔时间
+    }
+</script>
+<script src="js/less-2.5.3.min.js"></script>
+<script>
+    less.watch();//启用监视模式
+</script>

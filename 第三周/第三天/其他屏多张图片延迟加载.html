@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 1px;
+        }
+        div img {
+            display: block;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div style="padding-top: 1000px"></div>
+<div>
+    <img src="img2/default.gif" alt="" realImg="img2/1.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/2.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/3.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/4.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/5.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/6.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/7.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/8.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/9.jpg">
+    <img src="img2/default.gif" alt="" realImg="img2/10.jpg">
+</div>
+</body>
+</html>
+<script>
+
+    function offsetAll(e){
+        var parent=e.offsetParent,
+            left=e.offsetLeft,
+            top=e.offsetTop;
+        while(parent){
+            if(!/MSIE 8\.0/.test(navigator.userAgent)){
+                left+=parent.clientLeft;
+                top+=parent.clientTop;
+            }
+            left+=parent.offsetLeft;
+            top+=parent.offsetTop;
+            parent=parent.offsetParent;
+        }
+        // console.log(left, top);
+        return {
+            left:left,
+            top:top
+        }
+    }
+    function win(attr,value){
+        if(typeof value ==='undefined'){
+            return document.documentElement[attr]||document.body[attr];
+        }else{
+            if(attr==='scrollTop' ||attr==='scrollLeft'){
+                document.documentElement[attr]=value;
+                document.body[attr]=value;
+            }
+        }
+    }
+    var oImgs=document.getElementsByTagName('img');
+
+    // var clientH=win('clientHeight');
+    // window.onscroll=function (){
+    //     // var that=this;
+    //     for (var i = 0; i < oImgs.length; i++) {
+    //         // if( cur.loaded) return ;
+    //         var cur=  oImgs[i];
+    //                 cur.myIndex=i;
+    //         var imgT=cur.offsetHeight+offsetAll(cur).top;
+    //         if(clientH+win('scrollTop')>=imgT){
+    //             var tempImg=new Image();
+    //             tempImg.src = cur.getAttribute('realImg');
+    //             tempImg.onload=function (){ // 当图片加载成功后才触发
+    //                 oImgs[cur.myIndex].src=this.src;
+    //                 oImgs[cur.myIndex].loaded=true;
+    //             };
+    //             tempImg.onerror=function (){
+    //
+    //             }
+    //     }
+    // }};
+
+
+
+    var clientH=win('clientHeight');
+    window.onscroll=function (){
+        // var that=this;
+        for (var i = 0; i < oImgs.length; i++) {
+            // if( cur.loaded) return ;
+            var cur=  oImgs[i];
+            lazyLode(cur);
+        }};
+
+        function lazyLode(cur) {
+            var imgT=cur.offsetHeight+offsetAll(cur).top;
+            if(clientH+win('scrollTop')>=imgT){
+                var tempImg=new Image();
+                tempImg.src = cur.getAttribute('realImg');
+                tempImg.onload=function (){ // 当图片加载成功后才触发
+                   cur.src=this.src;
+                    cur.loaded=true;
+                };
+                tempImg.onerror=function (){
+
+                }
+            }
+        }
+
+
+
+    // var imgT=oImg.offsetHeight+offsetAll(oImg).top;
+    // var clientH=win('clientHeight');
+    // window.onscroll=function (){
+    //     if( oImg.loaded) return ;
+    //
+    //     if( clientH+ win('scrollTop')>=imgT){
+    //         var tempImg=new Image();
+    //         tempImg.src = oImg.getAttribute('realImg');
+    //         tempImg.onload=function (){
+    //             oImg.src=this.src;
+    //             oImg.loaded=true;
+    //         };
+    //         tempImg.onerror=function (){
+    //             oImg.src='img2/default.gif';
+    //             oImg.loaded=true;
+    //         };
+    //     }
+    // }
+    //
+    // setInterval(function (){
+    //     console.log('a');
+    // },1000)
+    // setInterval(function (){
+    //     console.log('b');
+    // },500)
+    // setInterval(function (){
+    //     console.log('c');
+    // })
+    // var a='d'
+    // console.log('a');
+    //
+    // while(true){
+    //     console.log('ture');
+    // }
+
+</script>

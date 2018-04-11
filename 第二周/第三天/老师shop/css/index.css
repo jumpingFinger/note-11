@@ -1,0 +1,58 @@
+html,body{
+    height: 100%;
+    background: #eee;
+}
+.wrap{
+    width: 1200px;
+    margin: 0 auto;
+}
+.menu{
+    border:1px solid #ddd;
+    height: 50px;
+    line-height: 50px;
+    color: #333;
+    background: #f3d6ba;
+}
+.menu span {
+    padding-left: 30px;
+}
+.menu a{
+    display: inline-block;
+    padding:0 15px;
+    color: #333;
+}
+.product{
+    /*background: #fff;*/
+    overflow: hidden;
+    margin-left: -20px;
+}
+.product li {
+    width: 182px;
+    margin:20px 0 20px 20px ;
+    padding: 20px 20px 0 20px;
+    border: 1px solid #8c8c8c;
+    float: left;
+    text-align: center;
+    line-height: 40px
+;
+}
+.product li img {
+    width: 180px;
+    height: 180px;
+}
+.product li h3 {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 12px;
+}
+.product li span {
+    display: block;
+    line-height: 25px
+}
+.product li span:first-child{
+    color: red;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+

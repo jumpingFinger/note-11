@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    ~function () {
+        var str='aabbbcccddd';
+        var reg=/(\w)\1*/g;
+        str.replace(reg,function (n,m,x){
+            // console.log(n, m, x);
+        })
+    }();
+
+    ~function () {
+        var str='aaafds2fd3312afs';
+        var reg=/\d/;
+        reg=/\d\w/;
+
+        reg=/^.$/; // 只能有一个字符且不是换行的字符
+        str='3';
+
+        reg=/^\d\w$/;//只能有两个字符，开始字符必须是0-9数字，结尾字符必须是字母，数字，下划线
+        str='5d6d';// false
+        str='2d';
+
+        reg=/\d{3,}/; //数字必须连续出现3到多次
+        str='22';
+        str='333'; // true
+        str='aa222ff';  //true
+        str='aaa3333ffff'; //true
+
+        reg=/\d+/; //匹配一个到多个连续的数字(只匹配一次) ,没有数字没有匹配项目
+        str='456fdfas4564';  // '456' 匹配到第一次出现的字符
+        str='fdfa11';  //  11
+        str='fdsfsa';
+
+        reg=/^\d+$/;//精确匹配 , 这里只能是一到多个数字 不能出现任何不是数字的
+        str='111';   //true
+        str='33344455dd'; // false
+        str='1';
+        str='2017培训2018'; //false
+
+
+        reg=/^\d+/m;
+        str='11\n1bb';
+        str='aaa\n22ewa';
+
+        //转义字符
+        reg=/^2.3$/; //点在正则中的意思:匹配 除了/n以外的任意字符.而不是单纯的小数点
+        str='2.3';
+        str='2d3';
+        str='2+3';
+
+        reg=/^2\.3$/;
+        str='2d3'; //false
+
+        reg=/^\\d$/;
+        str='9';
+        str='\d';
+        str='\\d';  //true;   "\d"
+
+        reg=/\\\d/;
+        str='9';
+        str='d';
+        str='\d';
+        str='\\d';
+        str='\\\d';
+        str='\\8';  // true   '\8'
+
+
+        reg=/^\$/;
+   //   str='\'; SyntaxError: Invalid or unexpected token
+        str='\\';  //false
+    //    str='\\\'; SyntaxError: Invalid or unexpected token
+
+
+        reg=/^0|1$/g;
+        str='0';  //true  '0'
+        str='01'; // true  '0'
+        reg=/^0|1$/;
+        str='01';  // true  '0'
+        str='0';
+        // console.log(reg.test(str));
+
+
+        reg=/^18|19$/;// 18开头 19 结尾 819 181 119 189
+        str='185555ddd';
+        str='fdsafs19';
+        str='189';
+
+        reg=/^(18|19)$/; // 此时只有18或者19符合我们的规则
+        str='189';  //false
+        str='1819';  // false
+        str='19';
+
+        reg=/^(\d)(\w)\1\2$/;
+        str='2d5e';  //false
+        str='2d2d';  //true "2d2d", "2", "d"
+        str='1a1a12312341'; //false
+
+
+        reg=/(\d)(\w)(\1)(\2)/;
+        str='2d2d'; //"2d2d", "2", "d", "2", "d"
+        str='1a1a12312341'; //"1a1a", "1", "a", "1", "a"
+
+        //=>需求:描述样式类名的规则(数字,字母.下划线,-),并且不能以-开头
+        reg=/^\w[\w-]+$/;
+        str='-1';  //false
+        str='_-1';
+
+        reg=/^[\w-]+$/;
+        str='-1';  //true
+        str='_-';  // true
+
+        reg=/^[^bad]+$/;
+        str='abd'; //false
+
+        //有效年龄
+        reg=/^(1[8~9])|([2~5]\d)|(6[0~5])$/;
+        str='12';
+        str='18';
+        str='22';
+        str='56';
+
+        // reg=/^[(18)~(65)]$/;
+
+        reg=/s\b/;
+        str='fasfs&fsfsf?11';// true  s
+
+
+        reg=/\w\b/g;  //
+        str='fasfs&fsfsf&11'; //["s", "f", "1"]
+
+        var name='马少帅';
+        reg=new RegExp('\\w+'+name+'\\w+','g');
+        str='aaa马少帅ddddd马少帅bbb';
+
+        // reg = new RegExp("^\\d+"+name+"+\\d$","i");
+        // console.log(reg.test("12珠峰3"));
+
+        //=>使用构造函数方式写出验证是否为有效数字的正则
+        //有效数是 整数 正负数 浮点数
+        //1.首字母不能已0开头
+        reg=new RegExp('^[+-]?(\\d|[1-9]\\d+)(\\.\\d+)?$');
+        str='1.2';
+        str='02';
+        str='-2.2';
+
+        //
+        reg = /^1\d{10}$/;
+        str='12356121315';
+
+        reg=/^\d{5}(\d|x)$/;
+        reg=/^\d{6}|\d{5}x$/;
+        reg=/^\d{5}[\dx]$/;
+        str='55555x';
+
+        reg = /^[+-]?(\d|[1-9]\d+)(\.\d+)?$/;
+        reg = /^[+-]?(?:\d|(?:[1-9]\d+))(?:\.\d+)?$/;
+        str='1.2';
+        str='02';
+        str='-222.2';
+
+        reg = /^[\u4E00-\u9FA5]{2,5}(·[\u4E00-\u9FA5]{2,5})?$/;
+        str='马少帅';
+
+        reg=/^[\w-]+@[A-Za-z-]+(\.[A-Za-z]{2,5}){1,2}$/;
+        reg=/^[\w-]+@[A-Za-z-]+(\.[A-Za-z]{2,5}){1,2}$/;
+
+        reg=/\d{2,5}?/;
+        str='2018珠峰2017';
+
+        // console.log(reg.exec(str));
+        // console.log(str.match(reg));
+
+        // reg=/\w+/g;
+        // var a='a134b';
+        // var b='ccc123dd';
+        // console.log(reg.exec(a)); //a134b
+        // console.log(reg.lastIndex);
+        // console.log(reg.exec(b)); //3dd
+        // console.log(reg.lastIndex); // 8
+        // console.log(reg.exec(a));  //null
+        // console.log(reg.lastIndex); //0
+        // console.log(reg.exec(b)); //ccc123dd
+
+
+
+    }();
+
+    ~function () {
+        var  str ='my name is {0},i am {1} years old~,2018';
+        var reg = /{(\d+)}/g;
+        // console.log(str.match(reg));
+
+
+        function fn(reg,str){
+            var ary=reg.exec(str),
+                result=[];
+            while(ary){
+                result.push(ary);
+                ary=reg.exec(str);
+            }
+            return result
+        }
+        var res=fn(reg,str);
+        // console.log(res[1][1]);
+    }();
+
+    ~function () {
+        var  str ='my name is {0},i am {1} years old~,2018';
+        var reg = /{(\d+)}/g;
+        // console.log(reg.exec(str));
+        // console.log(reg.exec(str));
+    }();
+
+    ~function () {
+        var reg = /\{(\d+)\}/g;
+        var str = 'my name is {0}~~';
+        // console.log(reg.test(str));
+        if(reg.test(str)){
+            //=>reg.text(str):true
+            // console.log(reg.lastIndex);	//=>14
+            //=>如果当前字符串和正则是匹配的,我们进行捕获的
+            // console.log(reg.exec(str));  //=>null
+        }
+    }();
+
+    ~function () {
+        var reg = /\{(\d+)\}/;
+        var str = 'my name is {0}~~';
+        if(reg.test(str)){
+            //=>reg.text(str):true
+    //        console.log(reg.lastIndex);	//=>0
+            //=>如果当前字符串和正则是匹配的,我们进行捕获的
+    //        console.log(reg.exec(str));  //=>['{0}','{0}'...]
+        }
+    }();
+
+    ~function () {
+        // var reg = /\{(\d+)\}/g;
+        // var str = 'my name is {0}~~';
+        // var  flag = reg.test(str);//=>true
+        // console.log(RegExp.$1); //=>获取当前本次匹配内容中第一个小分组捕获内容  0
+        //
+        // console.log(reg.test(str));  //=>false
+        // console.log(RegExp.$1);  //=> 0
+    }();
+
+    ~function () {
+        // var reg = /\{(\d+)\}/g;
+        // var str = 'my name is {0}~~,i am {1} years old~~';
+        // console.log(reg.test(str));//=>true
+        // console.log(RegExp.$1); //=> 0
+        // console.log(reg.test(str)); //=>true
+        // console.log(RegExp.$1);  //=> 1
+        // // 1.text可以实现捕获,但是每一次只能获取到当前本次匹配结果中,第N个分组捕获的内容  $1第一个分组  $2 第二个分组....
+    }();
+
+    ~function () {
+        var reg = /\{(\d+)\}/g;
+        var str = 'my name is {0}~~,i am {1} years old~~';
+
+        var result = [];
+        while (reg.test(str)) {
+            result.push(RegExp.$1);
+        }
+        // console.log(result);//=>["0", "1"]
+
+//exec写法
+        var result = [],
+            ary = reg.exec(str);
+        while (ary) {
+            result.push(ary[1]);
+            ary = reg.exec(str);
+        }
+        // console.log(result);//=>["0", "1"]
+    }();
+
+    ~function () {
+        var  str ='name=珠峰&age=8&lx=teacher';
+    //    str=str.split('&'); //["name=珠峰", "age=8", "lx=teacher"]
+ //       str =str.split('==');//["name", "珠峰&age", "8&lx", "teacher"]
+
+ //       str=str.split(/&|=/);// ["name", "珠峰", "age", "8", "lx", "teacher"]
+//        str=str.split(/(&|=)/);//(11) ["name", "=", "珠峰", "&", "age", "=", "8", "&", "lx", "=", "teacher"]
+        str=str.split(/(?:&|=)/); ["name", "珠峰", "age", "8", "lx", "teacher"]
+        // console.log(str);
+    }();
+
+    ~function () {
+        var str = 'my name is zhu-feng-pei-xun,i am 8 years old,i am qian duan pei xun no1!';
+    //    var reg = /(\b\w+\b)/g;
+     //   reg=/\b(\w)(\w*)\b/g;
+     //    console.log(reg.exec(str));
+     //    str.replace(reg,function (){
+     //
+     //    })
+        str = str.replace(/-/g, '_');
+        // console.log(str);
+//=>2、通过边界符匹配到每一个单词
+      //  console.log(str.match(/\b(\w)(\w*)\b/g));//["my", "name", "is", "zhu_feng_pei_xun", "i", "am", "8", "years", "old", "i", "am", "qian", "duan", "pei", "xun", "no1"]
+        str = str.replace(/\b(\w)(\w*)\b/g, function () {
+            return arguments[1].toUpperCase() + arguments[2];
+        });
+
+//=>3、在把之前替换的下划线重新赋值为中杠
+        str = str.replace(/_/g, '-');
+        // console.log(str);
+    }();
+
+    ~function () {
+        var str = "14800";
+        var a = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
+      str=  str.replace(/\d/g,function (){
+            return a[arguments[1]]
+        })
+        // console.log(str);
+    }();
+    ~function () {
+        var str = "my name is {0},i am {1},i come from {2}";
+        var ary = ["珠峰培训",8,"beijing"];
+        str=str.replace(/\{(\d)\}/g,function (){
+            return ary[arguments[1]];
+        });
+        // console.log(str);
+    }();
+    ~function () {
+        //敏感词替换 池子 珠峰培训 珠峰员工   ** ****
+        var str ="由于大家比较喜欢看80后脱口秀池子的表演,所以想把池子请到珠峰培训来表演下,但是由于费用比较高,需要把珠峰员工的工资降低以凑得上池子的演出费,珠峰员工表示非常不满意!";
+      //  console.log(str.match(/(池子|珠峰培训|珠峰员工)/g));
+      var str=  str.replace(/(池子|珠峰培训|珠峰员工)/g,function (){
+            // console.log(arguments[0].length);
+            var str='';
+            for (var i = 0; i < arguments[0].length; i++) {
+                str+='*';
+            }
+            // console.log(str);
+            return str
+        });
+        // console.log(str);
+    }();
+
+    ~function () {
+        //统计出现最多的字母和次数 (两种方法)
+        var str = "aafbbcddddeeeAAABBCCCC";
+        var ary=str.split('');
+        ary.sort(function (a,b){
+            return a.localeCompare(b);
+        });
+        str=ary.join('');
+        // console.log(str);
+        var reg=/(\w)(\1*)/g;
+        // console.log(str.match(reg));
+        var max=0;
+            maxStr='';
+            str.replace(reg,function (n,m){
+                if(n.length>max){
+                    max=n.length;
+                    maxStr=m;
+                }else if (n.length==max){
+                    maxStr+=','+m;
+                }
+            });
+        // console.log(max, maxStr);
+    }();
+
+    ~function () {
+        var str = "aafbbcddddeeeAAABBCCCC";
+        var obj={};
+        for (var i = 0; i < str.length; i++) {
+            var item=str[i];
+            if(obj[item]){
+                obj[item]++;
+            }else{
+               obj[item]=1;
+            }
+        }
+        var max=0,
+            maxStr='';
+        for (var key in obj) {
+            if(max<obj[key]){
+                max=obj[key];
+                maxStr=key;
+            }else if (max==obj[key]){
+                maxStr+=','+key;
+            }
+        }
+        // console.log(max, maxStr);
+    }();
+
+    ~function () {
+        var str = "http://www.baidu.com?id=557131028857&name=zhufeng&age=8";
+        var reg=/([^?&=]+)=([^?&=]+)/g;
+        var obj={};
+        console.log(reg.exec(str));
+        console.log(reg.exec(str));
+        console.log(reg.exec(str));
+        console.log(str.match(reg));
+        str.replace(reg,function (k,n,m){
+         //   console.log(k,n,m);
+            obj[n]=m;
+        });
+   //     console.log(obj);
+    }();
+
+    ~function () {
+        var str="<div id='div1' class='aa'>皇帝被废，太后痛哭流涕，皇室威严扫地，群臣无不悲愤。</div><p>“龙辇风驾？”刘辩把脑袋枕在美艳的唐姬腿上，不由自主的发出一声苦笑。</p>";
+        var reg = /<[^<>]+>/g;
+   //     console.log(str.match(reg));
+        str=str.replace(reg,'');
+    //    console.log(str);
+    }();
+</script>

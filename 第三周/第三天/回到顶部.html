@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            height: 400%;
+            background: linear-gradient(darkblue,palegoldenrod,red,purple,#b7b7b7);
+        }
+        #top  {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: pink;
+            color: #333;
+            text-align: center;
+            line-height: 100px;
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="top">top</div>
+</body>
+</html>
+<script>
+    function win(attr,value){
+        if(typeof value ==='undefined'){
+            return document.documentElement[attr]||document.body[attr];
+        }else{
+            if(attr==='scrollTop' ||attr==='scrollLeft'){
+                document.documentElement[attr]=value;
+                document.body[attr]=value;
+            }
+        }
+    }
+    //1.卷出去的高度大于等于一屏高度时,top按钮才显示
+    //2.点击top按钮,滚动条回到顶部(匀速运动)
+    //3.点击完top按钮了,为了防止不断点击top按钮定时器积累,需要把top按钮隐藏掉
+
+    //滚动条移动触发scroll事件时才去判断
+    var clientH=win('clientHeight');
+    var oTop=document.getElementById('top');
+    function show(){
+        var scrollT=win('scrollTop');
+        if(scrollT>=clientH){
+            oTop.style.display='block';
+        }else{
+            oTop.style.display='none';
+        }
+    }
+    window.onscroll=show;
+
+    //匀速 : 间隔时间走的路程是一样的
+    //总时间/间隔时间*单步路程=总路程
+    //单步路程=总路程*间隔时间/总时间
+    var duration=800; // 总时间
+    var interval=25; // 间隔时间
+    var top=win('scrollTop');
+    top.onclick=function (){
+        window.onscroll=null;//去掉绑定的行为
+        oTop.style.display='none';//防止不停的点击这个按钮
+        var step=win('scrollTop')*interval/duration;
+        // var target=win('scrollTop');//总路程
+      var timer=  setInterval(function (){
+            // var step=target*interval/duration;
+            var newtarget=win('scrollTop');
+          newtarget-=step; //移动一次scrollTop的值
+            if(newtarget<=0.5){
+                newtarget=0;
+                clearTimeout(timer);
+                // timer=null;
+                //滚动条到达顶部,害得给scroll事件绑定show方法
+                window.onscroll=show;
+            }
+            win('scrollTop',newtarget)
+        },interval)
+    }
+</script>

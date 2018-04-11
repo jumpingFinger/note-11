@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .oBox{
+            width: 400px;
+            margin: 0 auto;
+        }
+        .oBox ul{
+            overflow: hidden;
+            margin:-1px 0 ;
+        }
+        .oBox ul li {
+            float: left;
+            display: block;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background: aquamarine;
+            font-size: 22px;
+            text-align: center;
+            margin-right: 15px;
+            border: 1px solid salmon;
+        }
+        .oBox .oDiv{
+            display: none;
+            width: 400px;
+            height: 250px;
+            background:rebeccapurple ;
+        }
+        .oBox li.selected {
+            /*display: block;*/
+            background: rebeccapurple;
+            border-bottom:none;
+
+        }
+        .oBox div.selected {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="oBox" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+
+<div id="oBox1" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+</body>
+</html>
+<script>
+    //1. 用哪种方式封装插件  ->构造函数 + 原型模式
+    //2..哪些参数是必须传的.哪些是可选的
+        // 必传 : 最外层的ID
+        // 可选 : 默认下哪个是选中的,若手动设置,则传选中的li索引,不传是第一个默认选中
+    //3. 插件的功能有哪些
+        //1.获取元素 2. 绑定点击事件   3. 实现点击的逻辑
+    ~function () {
+        function Tab(tabBox,options){
+            //区分哪些是私有的哪些是公有的
+            // if(options.id==undefined)return ;
+            // this.id=options.id;
+            this.tabBox=tabBox;
+            this.select=options.select||0;
+            this.eventType=options.event ||'click';
+            // console.log(this.select);
+            this.init();
+        }
+        Tab.prototype.init=function (){
+            //初始化插件的功能,通过这个方法就能知道这个插件有哪些功能  ,页面已加载时就运行
+            //1.获取元素
+            this.getEle();
+            //2.绑定事件
+            this.bind();
+            //3.实现点击时候的逻辑 (点击时候运行的)
+            for (var i = 0; i < this.oLis.length; i++) {
+                this.oLis[i].className = null;
+                this.oDivs[i].className ='oDiv';
+            }
+            // console.log(this.oLis);
+            this.oLis[this.select].className='selected';
+            this.oDivs[this.select].className='oDiv selected';
+            //设置默认选中的li和DIV
+        };
+        Tab.prototype.getEle=function (){
+            //this 指的都是实例
+
+            this.oLis=this.tabBox.getElementsByTagName('li');
+            this.oDivs=this.tabBox.getElementsByTagName('div');
+        };
+        Tab.prototype.bind=function (){
+            for (var i = 0; i <  this.oLis.length; i++) {
+                //this 不能跨作用查找,但是变量可以
+                var that=this;
+                ~function (i) {
+                    that.oLis[i]['on'+that.eventType]=function () {
+                        that.changeTab(i);
+                    }
+                }(i);
+            }
+        };
+        Tab.prototype.changeTab=function(n){
+            this.oLis[this.select].className=null;
+            this.oDivs[this.select].className='oDiv';
+            this.oLis[n].className='selected';
+            this.oDivs[n].className='oDiv selected';
+            this.select=n;
+        };
+        window.Tab=Tab;
+    }();
+
+    var oTab=document.getElementsByClassName('oBox');
+    new Tab(oTab[0],{event:'mouseover'});
+    new Tab(oTab[1],{select:2});
+
+    // new Tab({id:'oBox',event:'mouseover'});
+    // new Tab({id:'oBox1',select:2});
+</script>

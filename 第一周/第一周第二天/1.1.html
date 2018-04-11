@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="button" value="0">
+<input type="button" value="1">
+<input type="button" value="2">
+<input type="button" value="3">
+<input type="button" value="4">
+</body>
+</html>
+<script>
+    var olis=document.getElementsByTagName('input');
+    // for (let i = 0; i < olis.length; i++) {
+    //     olis[i].onclick=function (){
+    //         alert("这是第"+(i+1)+'按钮')
+    //     }
+    // }
+
+        // for (var i = 0; i < olis.length; i++) {
+        //     ~function (i) {
+        //         olis[i].onclick=function (){
+        //             alert("这是第"+(i+1)+'按钮')
+        //         }
+        //     }(i);
+        // }
+
+    for (var i = 0; i < olis.length; i++) {
+        olis[i].onclick=(function(i){
+          return  function(){
+              alert("这是第"+(i+1)+'按钮');
+          }
+        })(i);
+    }
+
+    // for (let i = 0; i < olis.length; i++) {
+    //     olis[i].cur=i;
+    //     olis[i].onclick=function (){
+    //         alert("这是第"+(cur+1)+'按钮')
+    //     }
+    // }
+</script>

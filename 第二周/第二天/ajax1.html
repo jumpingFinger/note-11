@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    ~function () {
+        var xhr=new XMLHttpRequest();
+        xhr.open('get','data.json',false);
+        xhr.onreadystatechange=function (){
+            if(xhr.readyState ===4 &&xhr.status===400){
+                // if(xhr.readyState ===4 &&/^2\d{2}$/.text(xhr.status)){
+                    var obj=xhr.responseText;
+                console.log(obj);
+                window.obj=JSON.parse(obj);
+                console.log(obj);
+            }
+        }
+    }();
+
+</script>

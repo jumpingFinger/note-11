@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul id="oUl"></ul>
+</body>
+</html>
+<script src="utils.js"></script>
+<!--<script src="data.json"></script>-->
+<script>
+    //     var obj={"name":"妈","age":18,"hobby":"睡觉"};
+    // var jsonStr =JSON.stringify(obj);
+    // console.log(jsonStr);
+    // // var jsonObj=JSON.parse(jsonStr);
+    // // console.log(jsonObj);
+    //     console.log(utils.toJSON(jsonStr));
+
+    //1.创建ajax请求
+    var xhr = new XMLHttpRequest();
+    //2.打开一个连接地址
+    xhr.open("get", "data.json", false);
+    xhr.onreadystatechange  = function () {
+        // if (xhr.readyState == 4&&/^2\d{2}$/.text(xhr.status)) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+       //     console.log(xhr.responseText);//JSON格式的字符串
+            // var data = utils.toJSON(xhr.responseText);
+            // console.log(data);
+            var result = xhr.responseText;//=>JSON格式的字符串
+            window.result = utils.toJSON(result);
+            console.log(result);
+        }
+    };
+    //4.发起请求
+    xhr.send(null);
+    var str='';
+    for (var i = 0; i < result.length; i++) {
+        str+='<li>'+result[i]['name']+'</li>'
+    }
+    var oUl=document.getElementById('oUl');
+    oUl.innerHTML=str;
+
+
+</script>

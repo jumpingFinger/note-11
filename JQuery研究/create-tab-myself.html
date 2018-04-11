@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <!--IMPORT CSS-->
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/tab.css">
+</head>
+<body>
+<div class="tabBox" id="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        1
+    </div>
+    <div class="con">
+        2
+    </div>
+    <div class="con">
+        3
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+        <li>科技</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+        </ul>
+    </div>
+</div>
+
+<!--IMPORT JS-->
+<script src="js/jquery-1.11.3.min.js"></script>
+<!-- <script src="js/pluginTab.min.js"></script> -->
+
+<script>
+    var  tabRender=(function(){
+        var $tabBox=$('#tabBox'),
+            //先找到所有tabBox的后代元素,通过.tab>li选出所需要的li
+            $tabList=$tabBox.find('.tab>li'),
+            $conList =$tabBox.children('.con');
+        var _defalut ={
+            initIndex:0,
+            eventType:'click'
+        };
+
+        //=>给所有的li绑定点击事件
+        function bindEvent(){
+            $tabList.on(_defalut.eventType,function(){
+     //           $tabList.on('click',function(){  //为什么这么写??,这是最底层的操作
+                    //=>this :当前点击的这个li current click li
+                var $this=$(this); //把经常用到的用变量存存起来,每次$(this)都会执行好多操作,这样能很好的优化性能
+                var _index=$this.index();
+                $(this).addClass('select') //jq的链式写法非常的强大,为了明确主体操作的主体,我们经常会折行
+                    .sibling().removeClass('select');
+                //一般不这么写,不用循环,因为她有内置循环
+                /*
+                                $conList.each(function (index,item){
+                    //=>this : item
+                    var $item=$(item); //用多次的尽量减少$()的使用次数
+                    if(_index==index){
+                        $item.addClass('select');
+                    } else {
+                        $item.removeClass('select')
+                    }
+                });
+
+                 */
+                $conList.eq(_index).addClass('select')
+                    .siblings().removeClass('select');
+            });
+    //        $tabList.click(function (){}); 等价于上面的写法,里面提供了其他很多方法
+        }
+
+        //=>在bindEvent执行之前,我们需要给他有默认的选中样式
+        function initDefault() {
+            $tabList.removeClass('select');
+            $conList.removeClass('select');
+
+            $tabList.eq(_defalut.initIndex).addClass('select');
+            $conList.eq(_defalut.initIndex).addClass('select');
+        }
+        
+        return {
+            init :function(options){
+                //=>init parameters
+      //          var _default ={};    把他提到括号外面去,因为以后别的地方也要用
+                if(typeof options !=='undefined'){
+                    $.each(options,function (key,value){
+                        if(options.hasOwnProperty(key)){
+                            _defalut[key]=value;
+                        }
+                    })
+                }//判断是否传参数了,然后遍历传进来的值
+                initDefault();
+                bindEvent();
+            }
+        }
+    })();
+    tabRender.init();
+</script>
+</body>
+</html>

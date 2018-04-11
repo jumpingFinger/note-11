@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+
+        }
+    </style>
+</head>
+<body>
+<div id="div1">0
+</div>
+</body>
+</html>
+<script>
+    var oDiv=document.getElementById('div1');
+    // ~function () {
+    //     var n=0;
+    //     oDiv.onclick=function (){
+    //         this.innerHTML=++n;
+    //     }
+    // }();
+
+    oDiv.onclick=(function (){
+        var n=0;
+        return function () {
+            this.innerHTML=++n;
+        }
+    })();
+
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .oBox{
+            width: 400px;
+            margin: 0 auto;
+        }
+        .oBox ul{
+            overflow: hidden;
+            margin:-1px 0 ;
+        }
+        .oBox ul li {
+            float: left;
+            display: block;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background: aquamarine;
+            font-size: 22px;
+            text-align: center;
+            margin-right: 15px;
+            border: 1px solid salmon;
+        }
+        .oBox .oDiv{
+            display: none;
+            width: 400px;
+            height: 250px;
+            background:rebeccapurple ;
+        }
+        .oBox li.selected {
+            /*display: block;*/
+            background: rebeccapurple;
+            border-bottom:none;
+
+        }
+        .oBox div.selected {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="oBox" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+
+<div id="oBox1" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+</body>
+</html>
+<script>
+    ~function () {
+
+
+        window.changeTab=changeTab;
+    }();
+    var oTab=document.getElementsByClassName('oBox');
+    new changeTab (oTabp[``]);
+</script>

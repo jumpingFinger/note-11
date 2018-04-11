@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div{
+            width: 200px;
+            height: 200px;
+            margin: 50px auto;
+            border: 10px solid red;
+            background: rosybrown;
+            color: #00FF00;
+            overflow:auto;
+        }
+    </style>
+</head>
+<body>
+<div id="div">
+    我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了我们是游戏的打飞机斯科拉飞机手榴弹卡积分了
+</div>
+</body>
+</html>
+<script>
+    var oDiv=document.getElementById('div');
+    // console.log(oDiv.scrollTop==50);
+    // setInterval(function (){
+    //     var h=oDiv.scrollTop++;
+    //     if(h==oDiv.scrollTop){
+    //         oDiv.scrollTop=0;
+    //     }
+    // },12)
+    // var timer=null;
+    //
+    // function move(){
+    //     setTimeout(function(){
+    //         clearTimeout(timer);
+    //         var h=oDiv.scrollTop++;
+    //         if(h==oDiv.scrollTop){
+    //             oDiv.scrollTop=0;
+    //         }
+    //         timer= setTimeout(arguments.callee,17);
+    //     },17)
+    // }
+    // move();
+
+    var timer=null;
+    function move(){
+        clearTimeout(timer);
+        var h=oDiv.offsetTop++;
+        if(h==oDiv.offsetTop){
+            oDiv.offsetTop=0;
+        }
+        timer=setTimeout(arguments.callee,17);
+    }
+    move();
+
+
+</script>

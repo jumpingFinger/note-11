@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    Object.prototype.hasPublicProperty=function (attr) {
+        return attr in this && !(this.hasOwnProperty(item))
+    }
+    Array.prototype.random=function (n){
+        if(this.length<n) return [];
+        var ary=this.slice(0);
+            newAry=[];
+        for (var i = 0; i < n; i++) {
+            var num =Math.floor(Math.random()*ary.length);
+            var val =ary[num];
+            ary[num]=ary[ary.length-1];
+            ary.length--;
+            newAry.push(val);
+        }
+        return newAry
+    };
+
+    Array.prototype.random=function (n){
+        if(this.length<n) return [];
+        var ary=this.slice(0);
+        var newAry=[];
+
+        for (var i = 0; i < n; i++) {
+            var num =Math.floor(Math.random()*ary.length);
+            if(newAry.indexOf(newAry[num])==-1){
+                newAry=newAry.concat(ary.slice(num,num+1));
+            }else {
+                i--;
+            }
+        }
+
+        return newAry
+    };
+    var ary=[1,2,3,4,5,1,2,3];
+    console.log(ary.random(2));
+    console.log(ary);
+
+
+    Number.prototype.plus = function plus() {
+        var value = Number(arguments[0]) || 0;
+        return this + value;
+    };
+    Number.prototype.minus = function minus() {
+        var value = Number(arguments[0]) || 0;
+        return this - value;
+    };
+    console.log((5).plus(7).minus(2));
+
+</script>

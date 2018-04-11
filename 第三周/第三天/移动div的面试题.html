@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            margin: 50px auto;
+
+        }
+        ul li {
+            position:relative;
+            left:0;
+            top:0;
+            width: 200px;
+            height: 50px;
+            background: green ;
+            color: darkgrey;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<ul id="oUl">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+</body>
+</html>
+<script>
+        var oUl=document.getElementById('oUl'),
+            oLis=oUl.getElementsByTagName('li');
+
+        var i=0;
+        setInterval(function (){
+            oLis[i].style.left=200*(i+1)+'px';
+            i++;
+        },1000)
+
+        // for (var i = 0; i < oLis.length; i++) {
+        //     (function (i){
+        //         setInterval(function (){
+        //             oLis[i].style.left=200*(i+1)+'px';
+        //         },1000*(i+1))
+        //     })(i);
+        // }
+</script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div{
+            width: 800px;
+            margin:50px auto;
+            border:2px solid rebeccapurple;
+            height: 200px;
+            overflow-x:hidden;/*内容超过盒子的宽度的时候就会出现滚动条*/
+            overflow-y:hidden;
+        }
+        #div ul {
+            /*position: relative;*/
+            /*float: left;*/
+            /*left:0;*/
+            /*top: 0;*/
+            width: 1600px;
+            height: 200px;
+        }
+        #div li {
+            float: left;
+            width: 200px;
+            height: 200px;
+            list-style: none;
+        }
+        #div li img{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="div">
+    <ul>
+        <li><img src="./img/1.jpg" alt=""></li>
+        <li><img src="./img/2.jpg" alt=""></li>
+        <li><img src="./img/3.jpg" alt=""></li>
+        <li><img src="./img/4.jpg" alt=""></li>
+    </ul>
+    <!--<ul>-->
+        <!--<li><img src="./img/1.jpg" alt=""></li>-->
+        <!--<li><img src="./img/2.jpg" alt=""></li>-->
+        <!--<li><img src="./img/3.jpg" alt=""></li>-->
+        <!--<li><img src="./img/4.jpg" alt=""></li>-->
+    <!--</ul>-->
+</div>
+</body>
+</html>
+<script>
+    //没有溢出内容时,对scrollLeft和scrollTop赋值不起作用
+    //1.让ul标签的内容拷贝一份 ,然后再修改ul标签的宽度
+    var oDiv=document.getElementById('div'),
+        oUl=oDiv.getElementsByTagName('ul')[0];
+        oUl.innerHTML+=oUl.innerHTML;   //累加内容  可以推理出来,是实现无缝滚动的技巧
+        //根据子元素li的个数设置ul的宽度
+    var oLis=oUl.getElementsByTagName('li');
+    oUl.style.width=oLis.length*200+'px';
+    //每隔一段时间 ,滚动条会卷出去一个像素, 当卷出去的宽度 = ul宽度的一半时 , 让滚动条回到起始位置
+    //滚动条在末尾的位置显示的一屏内容跟滚动条在起始位置显示的一屏内容是相同的,所以当滚动条从末尾位置回到起始位置,因为显示内容没有差异,这个过程看不到,所以是无缝滚动
+
+    setInterval(function (){
+        var a=oUl.offsetWidth/2;
+
+        if(oDiv.scrollLeft>=a){
+            oDiv.scrollLeft=0;
+        }
+        oDiv.scrollLeft+=1;
+    },10)
+</script>

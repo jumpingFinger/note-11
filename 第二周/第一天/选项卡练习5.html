@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .oBox{
+            width: 400px;
+            margin: 0 auto;
+        }
+        .oBox ul{
+            overflow: hidden;
+            margin:-1px 0 ;
+        }
+        .oBox ul li {
+            float: left;
+            display: block;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background: aquamarine;
+            font-size: 22px;
+            text-align: center;
+            margin-right: 15px;
+            border: 1px solid salmon;
+        }
+        .oBox .oDiv{
+            display: none;
+            width: 400px;
+            height: 250px;
+            background:rebeccapurple ;
+        }
+        .oBox li.selected {
+            /*display: block;*/
+            background: rebeccapurple;
+            border-bottom:none;
+
+        }
+        .oBox div.selected {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="oBox" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+
+<div id="oBox1" class="oBox">
+    <ul>
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="oDiv selected">1</div>
+    <div class="oDiv">2</div>
+    <div class="oDiv">3</div>
+</div>
+</body>
+</html>
+<script>
+    ~function () {
+        function Tab (tab,options){
+            var _default={
+                index:0,
+                eventType:'click'
+            };
+            for (var key in options) {
+                if(options.hasOwnProperty(key)){
+                    _default[key]=options[key];
+                }
+            }
+            this.tab=tab;
+            this.index=_default.index;
+            this.eventType=_default.eventType;
+            this.init();
+        }
+        Tab.prototype={
+          constructor:Tab,
+          init:function (){
+              this.getEle();
+              this.clear();
+              this.changeTab();
+          },
+          getEle:function (){
+              this.oLis=this.tab.getElementsByTagName('li');
+              this.oDivs=this.tab.getElementsByTagName('div');
+          },
+          clear:function (){
+              for (var i = 0; i < this.oLis.length; i++) {
+                    this.oLis[i].className=null;
+                    this.oDivs[i].className='oDiv';
+              }
+              this.oLis[this.index].className='selected';
+              this.oDivs[this.index].className='oDiv selected';
+          } ,
+          changeTab:function (){
+              for (var i = 0; i < this.oLis.length; i++) {
+                        var that=this;
+                  that.oLis[i].curIndex=i;
+                  that.oLis[i]['on'+that.eventType]=function (){
+                      that.oLis[that.index].className='null';
+                      that.oDivs[that.index].className='oDiv';
+                      this.className='selected';
+                      that.oDivs[this.curIndex].className='oDiv selected';
+                      that.index=this.curIndex;
+                  }
+              }
+          }
+        };
+        window.change=Tab;
+    }();
+    var oBox=document.getElementsByClassName('oBox');
+    new change(oBox[0],{index:1,eventType:'mouseover'});
+    new change(oBox[1],{index:2,eventType:'mouseover'});
+</script>

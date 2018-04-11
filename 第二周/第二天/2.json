@@ -1,0 +1,33 @@
+{
+  "zxgx": [{
+    "huati": "test1",
+    "date": "2018-03-01"
+  }, {
+    "huati": "test2",
+    "date": "2018-03-02"
+  },{
+    "huati": "test3",
+    "date": "2018-03-03"
+  }],
+  "wdxz": [{
+    "huati": "test4",
+    "date": "2018-03-04"
+  }, {
+    "huati": "test5",
+    "date": "2018-03-05"
+  },{
+    "huati": "test5",
+    "date": "2018-03-06"
+  }],
+  "rmht": [{
+    "huati": "test5",
+    "date": "2018-03-06"
+  }, {
+    "huati": "test6",
+    "date": "2018-03-07"
+  },{
+    "huati": "test3",
+    "date": "2018-03-03"
+  }
+  ]
+}

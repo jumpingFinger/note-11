@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function F () {
+        this.x=10;
+        this.x=10;
+    }
+    F.prototype.sum=function () {
+        console.log(this.x+this.y)
+    };
+    function S() {
+        //重点,重点,重点
+        F.call(this);//把F函数里的this改成S类实例   2.F();
+        //把父类的属性拷贝一份放在子类的实例上
+    }
+    S.prototype=new F();
+    var s=new S();
+    s.sum();
+</script>

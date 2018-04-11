@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    // var ary=[2,32,15,17,4,11];
+    // max=Math.max.apply(null,ary);
+    // console.log(max);
+    //
+    // min=Math.min(...ary);
+    // console.log(min);
+
+
+   // var max=ary[0],min=ary[ary.length-1];
+   // ary.forEach(function(value){
+   //     if(max<value){
+   //         max=value;
+   //     }
+   // });
+   //  console.log(max);
+   //  var ary=[2,32,15,17,4,11];
+    // var max=ary[0],min=ary[0];
+    // ary.forEach(function(value){
+    //     max<value?max=value:min>value?min=value:null;
+    // });
+    // console.log(min);
+
+
+    // str=ary.toString();
+    // eval('Math.max(' + ary.toString() + ')');
+~function () {
+    function fn(){
+        // var ary=Array.prototype.slice.call(arguments);;
+        //   arguments.__proto__=Array.prototype;
+        var ary=arguments;
+        //   var ary=[];
+        //   for (var i = 0; i < arguments.length; i++) {
+        //     ary[i]=arguments[i]
+        //   }
+
+        ary.sort(function(a,b){
+            return a-b;
+        }).pop();
+        ary.shift();
+        console.log(ary);
+        var total=eval(ary.join('+'));
+        var reg=total/ary.length;
+        reg.toFixed(2);
+        console.log(reg);
+        return reg;
+    }
+    fn(86,56,78,35,99,12)
+}();
+
+
+~function () {
+    function evg(){
+        [].sort.call(arguments,function (a,b){return a-b});
+        [].shift.call(arguments);
+        [].pop.call(arguments);
+        var reg=(eval([].join.call(arguments,'+'))/arguments.length).toFixed(2);
+        return reg;
+    }
+
+    console.log(evg(86, 56, 78, 35, 99, 12));
+}();
+
+~function () {
+    try{
+        var ary=[].slice.call(oLis)
+    }
+}();
+</script>

@@ -1,0 +1,42 @@
+.tabBox {
+    margin: 20px auto;
+    width: 500px;
+    font-size: 14px;
+}
+
+.tabBox .tab {
+    position: relative;
+    top: 1px;
+}
+
+.tabBox .tab li {
+    float: left;
+    margin-right: 15px;
+    padding: 0 15px;
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #999;
+    background: #EEE;
+    cursor: pointer;
+}
+
+.tabBox .tab li.select {
+    background: #FFF;
+    border-bottom-color: #FFF;
+}
+
+.tabBox .con {
+    display: none;
+    padding: 10px;
+    height: 150px;
+    border: 1px solid #999;
+}
+
+.tabBox .con li {
+    line-height: 29px;
+    border-bottom: 1px dashed #CCC;
+}
+
+.tabBox .con.select {
+    display: block;
+}

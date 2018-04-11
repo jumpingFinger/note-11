@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1">111</div>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var oDiv=document.getElementById('div1');
+    //批量设置css样式
+    //拿到第二个参数obj的属性和值,然后用掉setCss()分别设置
+    console.log(oDiv);
+    utils.css(oDiv,{
+        color:'red',
+        opacity:0.5,
+        background:'red'
+    })
+</script>

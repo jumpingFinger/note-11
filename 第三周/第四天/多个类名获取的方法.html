@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class=" box1 box2 box3"  id="div4"></div>
+<div class=" box1 box2 "></div>
+<div class=" box1 "></div>
+<div class=" box2 "></div>
+<div class=" box2 box3"></div>
+
+<header>
+    <div id="box">
+        <span></span>
+        <span></span>
+        <p></p>
+        <p></p>
+    </div>
+</header>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var getOneClass=function (strClass,context){
+        context=context||document ;//设定范围
+        var eles=context.getElementsByTagName('*');//获取所有的子元素
+        // console.log(eles);
+        var ary=[];
+        var reg=new RegExp('(^| +)'+strClass+'( +|$)');
+        for (var i = 0; i < eles.length; i++) {
+            if(reg.test(eles[i].className)){
+                ary.push(eles[i])
+            }
+        }
+        return ary ;
+    };
+    var getByClass=function (strClass,context){
+        //获取每个类名(之前先去掉首尾空格,然后再按照一到多个空格去拆分字符串)
+        //通过每个类名拿到
+        //查找时应该是从上次的结果中筛选中有另一个类名的
+        context=context||document ;//设定范围
+        var eles=document.getElementsByTagName('*');
+        console.log(eles);
+        var reg=/^\s+|\s+$/g;
+        var allClss=strClass.replace(reg,'').split(/\s+/g);
+        console.log(allClss);
+        //拿到每个类名
+
+       //放匹配的元素
+        for (var i = 0; i < allClss.length; i++) {
+           var curClass=allClss[i];
+            var ary=[];
+           var newReg=new RegExp('(^| +)'+curClass+'( +|$)');
+            for (var j = 0; j < eles.length; j++) {
+                // console.log(eles[j]);
+                if(newReg.test(eles[j].className)){
+                    ary.push(eles[j]);
+                }
+            }
+            eles=ary; //把每次查找的结果保存在eles里,这次下次就从上次结果中查找
+        }
+        return ary ;
+    };
+    var getByDifferentClass=function (strClass,context){
+        var eleAll=document.getElementsByTagName('*'),
+            aAllClass=strClass.replace(/^\s+|\s+$/g).split(/\s+/g);
+        context=context||document;
+        for (var i = 0; i < aAllClass.length; i++) {
+           var ary=[],
+               reg=new RegExp('(^| +)'+aAllClass[i]+'( +|$)');
+           for (var j = 0; j < eleAll.length; j++) {
+                if(reg.test(eleAll[j].className)){
+                    ary.push(eleAll[j])
+                }
+            }
+            eleAll=ary;
+        }
+        return ary;
+    };
+    var getByClassNames=function (strClass,context){
+        var eleAll=document.getElementsByTagName('*'),
+            aClassName=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        context=context||document;
+        for (var i = 0; i < aClassName.length; i++) {
+            var ary=[],
+                reg=new RegExp('(^| +)'+aClassName[i]+'( +|$)');
+            for (var j = 0; j < eleAll.length; j++) {
+                if(reg.test(eleAll[j].className)){
+                    ary.push(eleAll[j]);
+                }
+            }
+            eleAll=ary;
+        }
+        return ary;
+    };
+    var getClassByeles=function (strClass,context){
+        context=context||document;
+        var eleAll=document.getElementsByTagName('*'),
+            aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+           var ary=[],
+               reg=new RegExp('(^| +)'+aryClass[i]+'( +|$)'); // 不同加g
+            for (var j = 0; j < eleAll.length; j++) {
+                if(reg.test(eleAll[j].className)){
+                    ary.push(eleAll[j])
+                }
+            }
+            eleAll=ary;
+        }
+        return ary;
+    };
+    var get1111=function (strClass,context){
+          var eleAll=document.getElementsByTagName('*'),
+              aryClass=strClass.replace(/^\s+|\s+$/g);
+        for (var i = 0; i < aryClass.length; i++) {
+            var ary=[],
+                reg=new RegExp('(^| +)'+strClass[i]+'( +|$)');
+            for (var j = 0; j < eleAll.length; j++) {
+                if(reg.test(eleAll[j].className)){
+                    ary.push(eleAll[j])
+                }
+            }
+            eleAll=ary;
+        }
+    };
+    var get2222=function (strClass,context){
+        context=context||document;
+        var eleAll=document.getElementsByTagName('*'),
+            aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+            var ary=[],
+                reg=new RegExp('(^|\s+)'+aryClass[i]+'(\s+|$)');
+            for (var j = 0; j < eleAll.length; j++) {
+                if(reg.test(eleAll[j].className)){
+                    ary.push(eleAll[j])
+                }
+            }
+            eleAll=ary;
+        }
+        return ary;
+    };
+    var get3333=function (strClass,context){
+        context=context||document;
+        var eleAll=document.getElementsByTagName('*'),
+            aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+            var ary=[],
+                reg=new RegExp('(^|\s+)'+aryClass[i]+'(\s+|$)');
+            for (var j = 0; j < eleAll.length; j++) {
+               if(reg.test(eleAll[j].className)){
+                   ary.push(eleAll[j]);
+               }
+            }
+            eleAll=ary;
+        }
+        return ary;
+    };
+    console.log(getClassByeles('box2 box3'));
+
+
+
+
+    //true/false
+    var hasClass=function (ele,strClass){
+        var aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+                var reg=new RegExp('(^| +)'+aryClass[i]+'( +|$)');
+            if(!reg.test(ele.className)){
+              return false
+            }
+        }
+        return true;
+    };
+    var oDiv4=document.getElementById('div4');
+    console.log(hasClass(oDiv4, 'box1 box2'));
+    //给某个元素添加一到多个类名
+    //ele 某个元素    strClass 一到多个类名
+    var addClass=function (ele,strClass){
+        var aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+          if(!hasClass(ele,aryClass[i])){
+              ele.className+=' '+aryClass[i];
+          }
+        }
+    }
+
+    addClass(oDiv4,'box4');
+    //移除一个或者多个类名      strClass 一个或者多个
+    var removeClss=function (ele,strClass){
+        var aryClass=strClass.replace(/^\s+|\s+$/g,'').split(/\s+/g);
+        for (var i = 0; i < aryClass.length; i++) {
+            var reg = new RegExp('(^| +)' + aryClass[i] + '( +|$)');
+            if(hasClass(ele,aryClass[i])){
+                ele.className=ele.className.replace(reg,' '); //这里替换的时候中间要加一个空格
+            }
+        }
+    }
+    removeClss(oDiv4,'box2');
+
+
+    //获取ELE下指定标记名的标签
+    var getC=function (ele,tagName){
+        var ary=[];
+        if(typeof tagName ==='undefined'){
+            var eleAll=ele.childNodes;
+            for (var i = 0; i < eleAll.length; i++) {
+                if(eleAll[i].nodeType===1){
+                       ary.push(eleAll[i]);
+                }
+            }
+        }else if(typeof tagName ==='string'){
+                //从所有子元素中筛选出标记名是tagName
+            var eleAll=ele.childNodes;
+            for (var j = 0; j < eleAll.length; j++) {
+                    if(eleAll[j].nodeType===1){
+                        if(eleAll[j].nodeName.toLowerCase ===tagName.toLowerCase){
+                            ary.push(eleAll[j]);
+                        }
+                    }
+            }
+        }else {
+            throw new TypeError('第二个参数类型错误');
+        }
+        return ary;
+    };
+    var oBox=document.getElementById('box');
+
+
+    var getChildren=function (ele,tagName){
+        var ary = [];
+        if(typeof tagName === "string"){
+            //从所有子元素中筛选出标记名是tagName的元素
+            var childs = ele.childNodes;
+            for(var i = 0;i<childs.length;i++){
+                if(childs[i].nodeType===1){
+                    if(childs[i].nodeName.toLowerCase()===tagName.toLowerCase()){
+                        ary[ary.length] = childs[i];
+                    }
+                }
+            }
+
+        }else if(typeof tagName ==="undefined"){
+            var childs = ele.childNodes;//所有的子节点
+            for(var i = 0;i<childs.length;i++){
+                if(childs[i].nodeType === 1){
+                    ary.push(childs[i]);
+                }
+            }
+        }else{
+            throw new TypeError("第二个参数类型错误");
+        }
+        return ary;
+    }
+    console.log(getChildren(oBox, 'p'));
+</script>

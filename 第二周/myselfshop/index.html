@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/css.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="header" id="header">
+        <span>排序:</span>
+        <a href="javascript:;">
+            价格
+            <i class="up"></i>
+            <i class="down"></i>
+        </a>
+        <a href="javascript:;">
+            热度
+            <i class="up"></i>
+            <i class="down"></i>
+        </a>
+        <a href="javascript:;">
+            上架时间
+            <i class="up"></i>
+            <i class="down"></i>
+        </a>
+    </div>
+
+    <ul class="oUl clearfix" id="oUl">
+        <!--<li>-->
+            <!--<a href="javascript:;">-->
+                <!--<img src="img/1.jpg" alt="">-->
+                <!--<p>HUAWEI Mate 10 4GB+64GB 全网通版（亮黑色）</p>-->
+                <!--<span>-->
+                    <!--￥3899-->
+                <!--</span>-->
+                <!--<span>-->
+                    <!--2017-02-16-->
+                <!--</span>-->
+                <!--<span>-->
+                    <!--355hot-->
+                <!--</span>-->
+            <!--</a>-->
+        <!--</li>-->
+    </ul>
+</div>
+</body>
+</html>
+<script src="js/utils.js"></script>
+
+<script>
+    var changeSort =(function(){
+            var oUl=document.getElementById('oUl'),
+                oLis=oUl.getElementsByTagName('li'),
+                Data=null;
+        var getData=function (){
+          var xhr=new XMLHttpRequest();
+          xhr.open('get','json/product.json',false);
+          xhr.onreadystatechange=function (){
+              if(xhr.readyState===4 &&/2\d{2}/.test(xhr.status)){
+                  Data=JSON.parse(xhr.responseText);
+              }
+          };
+          xhr.send(null);
+        };
+
+        var bindHTML=function (){
+            var str=``;
+            for (var i = 0; i < Data.length; i++) {
+               var item=Data[i];
+                // console.log(item);
+                str+=`  <li data-price=${item.price} data-hot=${item.hot} data-time=${item.time}>
+            <a href="javascript:;">
+                <img src="${item.img}" alt="">
+                <p>${item.title}</p>
+                <span>
+                   ${item.price}
+                </span>
+                <span>
+                   ${item.hot}
+                </span>
+                <span>
+                    ${item.time}
+                </span>
+            </a>
+        </li>`;
+            }
+            oUl.innerHTML=str;
+        };
+
+        var bindEvent=function (){
+            var oHeader=document.getElementById('header'),
+                oA=oHeader.getElementsByTagName('a');
+            var oUp=[],
+                oDown=[];
+
+            for (var m = 0; m < oA.length; m++) {
+                oUp.push(oA[m].getElementsByClassName('up')[0]);
+                oDown.push(oA[m].getElementsByClassName('down')[0]);
+                for (var i = 0; i < oUp.length; i++) {
+
+                    oDown[i].my=m*i;
+                    oUp[i].curIndex=i;
+                    oUp[i].flag=1;
+                    oUp[i].onclick=function(){
+                        change.call(this);
+                    }
+                }
+                for (var j = 0; j < oDown.length; j++) {
+                    oDown[j].my=m*j;
+                    oDown[j].curIndex=j;
+                    oDown[j].flag=-1;
+                    oDown[j].onclick=function(){
+                        // this.flag*=-1;
+                        change.call(this);
+                    }
+
+                }
+                oA[m].curIndex=m;
+                oA[m].flag=-1;
+                // console.log(oA[m]);
+                oA[m].onclick=function(){
+                    this.flag*=-1;
+                    change.call(this);
+                }
+            }
+        };
+        var preindex=null;
+        var change=function (){
+            var that=this,
+            ary=["data-price","data-hot","data-time"],
+            aLis=[].slice.call(oLis,0);
+            if(typeof that.my !=='undefined'){
+                if(preindex===that.my) return ;
+            }
+            preindex=that.my;
+            // console.log(aLis);
+            // console.log(that.curIndex);
+            aLis.sort(function (a,b){
+                console.log(ary[that.curIndex]);
+                var curEle=a.getAttribute(ary[that.curIndex]),
+                    nextEle=b.getAttribute(ary[that.curIndex]);
+                if(that.curIndex===2){
+                    curEle=curEle.replace(/-/g,'');
+                    nextEle =nextEle.replace(/-/g,'');
+                }
+                return (curEle-nextEle)*that.flag
+            });
+            console.log(aLis);
+            var frg=document.createDocumentFragment();
+            for (var i = 0; i < aLis.length; i++) {
+                frg.appendChild(aLis[i]);
+            }
+            oUl.appendChild(frg);
+
+        };
+
+        return {
+            init :function(options){
+                // var _default={
+                //     tab=
+                // };
+                // for (var key in options) {
+                //     if(options.hasOwnProperty(key)){
+                //         _default[key]=options[key];
+                //     }
+                // }
+                // this.
+                getData();
+                bindHTML();
+                bindEvent();
+                change();
+            }
+        }
+    })();
+    changeSort.init();
+</script>

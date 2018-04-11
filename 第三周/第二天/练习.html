@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            border:2px dashed #e2a64f;
+            color:red;
+            font-size: 20px;
+            /*opacity:0.2;*/
+            filter:alpha(opacity=20);
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>
+<script>
+    var oDiv=document.getElementById('div1');
+    // window.getComputedStyle(oDiv,null)['fontSize'];
+
+    ~function () {
+        function getCss(ele,attr){
+            var res=null;
+            try{
+               res= window.getComputedStyle(ele,null)[attr];
+            }catch(e){ //IE6~8
+                res=ele.currentStyle[attr];
+            }
+            return res;
+        }
+        // console.log(getCss(oDiv, 'padding'));
+    }();
+
+    ~function () {
+        var getCss=function (ele,attr){
+            var res;
+            if(window.getComputedStyle){
+                res=window.getComputedStyle(ele,null)[attr];
+            }else{
+                if(attr=='opacity'){
+                    //1.获取filter的值 alpha(opacity=50)
+                    //2.拿到opacity 等号后的数值
+                    //3.对数值除以100,得到一个0~1之间的小数
+                    var result=ele.currentStyle.filter;
+                    var reg=/^alpha\(opacity\s*=(\d+(?:\.\d+)?)\s*\)$/;
+    //               reg.test(result)?reg.exec(result)[1]/100:1;
+                   res=reg.test(result)?RegExp.$1:1;//=>若调用了test或者exec方法,直接可通过RegExp.$1-$99获取分组的内容
+                }else{
+                    res=ele.currentStyle.attr;
+                }
+            }
+            return res;
+        };
+
+       // var a= getCss(oDiv,'opacity');
+       //  console.log(a);
+    }();
+
+    ~function () {
+        var getCss=function (ele,attr){
+            var res;
+            if(window.getComputedStyle){
+                res=window.getComputedStyle(ele,null)[attr];
+            }else{
+                if(attr=='opacity'){
+                    var result=ele.currentStyle.filter;
+                    var reg=/^alpha\(opacity\s*=(\d+(?:\.\d+)?)\s*\)$/;
+                    res=reg.test(result)?RegExp.$1:1;
+                }else{
+                    res=ele.currentStyle.attr;
+                }
+            }
+            reg=/^[+-]?(\d|[1-9]\d+)(\.\d+)?(rem|px|em|pt)?$/;
+            return reg.test(res)?parseFloat(res):res;
+        };
+        // var a= getCss(oDiv,'padding');
+        // console.log(a);
+    }();
+
+    ~function () {
+        //设置值只能通过行内式的方式 :
+        function setCss(ele,attr,value){
+            if(attr=='opacity'){
+                ele.style.attr=value;
+                ele.style.filter="alpha(opacity="+value*100+")";
+                return
+            }
+            //attr验证是否是
+            var reg=/^(?:width|height)(?:(?:margin|padding)?(?:left|right|bottom|top)?)$/i;
+            if(reg.test(attr)){
+                if(!isNaN(value)){ value+='px';}
+            }
+            return  ele.style[attr]=value;
+        }
+    }();
+
+    //offsetAll   getCss   setCss
+    ~function () {
+        var utils=function (){
+
+            var offsetAll=function (e){
+                  var parent=e.offsetParent,
+                      left=e.offsetLeft,
+                      top=e.offsetTop;
+
+                while(parent){
+                    if(!/MSIE 8\.0/.test(navigator.userAgent)){
+                        left+=parent.clientLeft;
+                        top+=parent.clientTop;
+                    }
+                    left+=parent.offsetLeft;
+                    top+=parent.offsetTop;
+                    parent+=parent.offsetParent;
+                }
+                return {
+                    left:left,
+                    top:top
+                }
+            };
+
+            var getCss=function (ele,attr){
+                if(window.getComputedStyle){
+                  var result=  window.getComputedStyle(ele,null)[attr];
+                }else{
+                    if(attr=='opacity'){
+                        var item=ele.currentStyle.filter;
+                        var reg=/^alpha\(opacity\s*=(\d+(\.\d+)?)\)$/;
+                        result=reg.test(item)?RegExp.$1/100:1;
+                    }else{
+                     result= ele.currentStyle.attr;
+                    }
+                }
+                reg=/^-?(\d|[1-9]\d+)(\.\d+)?(rem|px|pt|em)?$/;
+                return reg.text(result)?parseFloat(result):result;
+            };
+
+            var setCss=function (ele,attr,value){
+              if(attr=='opacity'){
+                  ele.style.opacity=value;
+                  ele.style.filter='alpha(opacity='+value*100+')';
+                  return
+              }
+              var reg=/(?:widht|height)(?:(?:margin|padding)?(?:left|right|bottom|top)?)/i;
+              if(reg.test(attr)) {
+                  if (!isNaN(value)) {
+                      value += 'px';
+                  }
+              }
+                return ele.style.attr=value;
+            };
+
+            var offsetAll=function (ele){
+                var parent=ele.offsetParent,
+                    left=ele.offsetLeft,
+                    top=ele.offsetTop;
+                if(!/MSIE 8\.0/.test(navigator.userAgent)){
+                    left+=parent.clientLeft;
+                    top+=parent.clientTop;
+                }
+                left+=parent.offsetLeft;
+                top+=parent.offsetTop;
+                parent=parent.offsetParent;
+                return {
+                  left:left,
+                    top:top
+                }
+            };
+
+            var getCss=function (ele,attr){
+                if(window.getComputedStyle){
+                    var result=window.getComputedStyle(ele,null)[attr];
+                }else{
+                    if(attr=='opacity'){
+                        var value=ele.currentStyle.filter;
+                        var reg=/^alpha(opacity\s*=(\d+)(\.\d+)?)$/;
+                        result=reg.test(value)?RegExp.$1/100:1;
+                    }else{
+                        result=ele.currentStyle.attr;
+                    }
+                }
+                reg=/^-?(?:\d|[1-9]\d+)(?:\.\d+)?(?:px|rem|pt|em)?$/;
+                return reg.test(result)?parseFloat(result):result;
+            };
+
+            var setCss=function (ele,attr,value){
+                if(attr==='opacity'){
+                    ele.style.opacity=value;
+                    ele.style.filter='alpha(opacity='+value*100+')';
+                }
+                var reg=/(?:width|height)(?:(margin|padding)(?:left|top|bottom|right))/i;
+                if(reg.test(attr)){
+                    if(!isNaN(value)){
+                        value+='px';
+                    }
+                }
+                return ele.style.attr=value;
+            };
+
+            var offsetAll=function (ele){
+                var parent=ele.offsetParent,
+                    left=ele.offsetLeft,
+                    top=ele.offsetTop;
+                if(!/MSIE 8\.0/.test(navigator.userAgetn)){
+                    left+=parent.clientLeft;
+                    top+=parent.clientTop;
+                }
+                left+=parent.offsetLeft;
+                top+=parent.offsetTop;
+                return {
+                    left:left,
+                    top:top
+                }
+            };
+
+            var getCss=function (ele,attr){
+                if(window.getComputedStyle){
+                    var result=window.getComputedStyle(ele,null)[attr];
+                }else{
+                    if(attr=='opacity'){
+                        var value=ele.currentStyle.filter;
+                        var reg=/alpha\(opacaity\s*=((\d)+(\.\d+)?)\)/;
+                        result=reg.test(value)?RegExp.$1/100:1;
+                    }else{
+                        result=ele.currentStyle.attr;
+                    }
+                }
+                reg=/-?(?:\d|[1-9]\d+)(?:\.\d+)?(?:rem|em|px|pt)?/;
+                return reg.test(result)?parseFloat(result):result;
+            };
+
+            var setCss=function (ele,attr,value){
+                if(attr==='opacity'){
+                    ele.style.opacity=value;
+                    ele.style.filter='alpha(opacity='+value*100+')';
+                    return
+                }
+                var reg=/(?:widht|height)(?:(?:marigin|padding)?(left|right|bottom|top))/i;
+                if(reg.test(attr)){
+                    if(!isNaN(value)){
+                        value+='px';
+                    }
+                }
+
+                ele.style.attr=value;
+            };
+
+            return {
+               offsetAll:offsetAll,
+                getCss:getCss,
+                setCss:setCss
+            }
+        }
+    }();
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div{
+            width: 800px;
+            margin: 50px auto;
+            border:2px solid rebeccapurple;
+            height: 200px;
+            overflow: auto;
+        }
+        #div ul {
+            /*width: 800px;*/
+            height: 200px;
+        }
+        #div li {
+            float: left;
+            width: 200px;
+            height: 200px;
+            list-style: none;
+        }
+        #div li img{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="div">
+    <ul>
+        <li><img src="./img/1.jpg" alt=""></li>
+        <li><img src="./img/2.jpg" alt=""></li>
+        <li><img src="./img/3.jpg" alt=""></li>
+        <li><img src="./img/4.jpg" alt=""></li>
+        <!--<img src="./img/5.jpg" alt="">-->
+    </ul>
+</div>
+</body>
+</html>
+<script>
+    var oDiv=document.getElementById('div');
+        oUl=oDiv.getElementsByTagName('ul')[0];
+    oUl.innerHTML+=oUl.innerHTML;
+    var oLis=oUl.getElementsByTagName('li');
+    oUl.style.width=oLis.length*200+'px';
+   var w= oUl.offsetWidth/2;
+    // setInterval(function (){
+    //     oDiv.scrollLeft++;
+    //     if(oDiv.scrollLeft==w){
+    //         oDiv.scrollLeft=0;
+    //     }
+    // },17)
+
+    var timer=null;
+
+    function move(){
+        clearTimeout(timer);
+        oDiv.scrollLeft++;
+            if(oDiv.scrollLeft==w){
+                oDiv.scrollLeft=0;
+            }
+
+        timer=setTimeout(arguments.callee,17);
+    }
+    move();
+
+
+
+</script>

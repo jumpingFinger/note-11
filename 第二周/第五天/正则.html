@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    ~function () {
+        var str ='hello&world';
+        var reg=/o\b/;   //true
+        reg.test(str);
+    }();
+
+    //以1开头的11位手机号码
+    ~function () {
+        //严格匹配
+        var reg=/^1\d{10}$/;
+    }();
+    //前17为数字,最后一位是数字或者x
+    ~function () {
+        var reg=/^\d{17}(\d|x)$/;
+        var reg=/^((\d{18})|(\d{17}X))$/;
+        var reg=/^\d{17}[\dx]$/
+    }();
+
+    //匹配有效数字  整数, 负数,小数  ,  0
+    ~function () {
+        //1.加号或者减号可有可无
+        //2.可以是一位或者多位(第一位不能为0)
+        //3.小数部分可有可无  小数(点开头后面是一位多位的数字)
+     var   reg=/^[-+]?(?:\d|(?:[1-9]\d+))(?:\.\d+)?$/;
+        //匹配不捕获
+        //() 分组 正则捕获这块,exec方法还会查找小括号里的内容提取出来,若你仅仅需要的是整个正则匹配的内容而不需要小括号的内容,这时仅仅是匹配不需要提取出来 ,  这时要在小括号里加 ? :
+        str='-0.0';
+        console.log(reg.test(str));
+    }();
+
+    //验证邮箱的规则
+    ~function () {
+        //1.@数字 , 字母 ,- ,_ 一到多个组成
+        //  @
+        //2.@域名前面  由点和字母或- 一到多个组成
+        //4.域名 (.+字母(2~5)) 可以一个或两个
+
+        // var reg=/^(\w|\-)+@((([A-Z0-9a-z])|-)+)((\.[A-za-z]{2,5}))[1,2]$/
+        // var reg1=/^[\w\-]+\@((([A-Z0-9a-z])|-)+)((\.[A-za-z]{2,5}))[1,2]$/
+        var reg2=/^[\w-]+@[A-Za-z-]+(\.[A-Za-z]{2,5}){1,2}$/
+        var str='123@qq.com';
+        // console.log(reg2.test(str));
+    }();
+
+
+    //正则的贪婪性
+    ~function () {
+        var reg=/\d{2,5}?/;  // 出现连续数字至少2次最多五次
+        var str='2018珠峰2017';
+        console.log(reg.exec(str));//["2018", index: 0, input: "2018珠峰2017"]
+        var reg=/\d{2,5}?/; //["20", index: 0, input: "2018珠峰2017"]
+          //默认情况下能多拿绝不少拿
+    }();
+
+    ~function () {
+    var str='fsa1312';
+      var  str1='afas3423111';
+        var reg=/\w+/g;
+        console.log(reg.exec(str)); //'fsa1312'
+        console.log(reg.exec(str1)); //3111
+        console.log(reg.exec(str1));  //null;
+        console.log(reg.exec(str)); //'fsa1312'
+    }();
+
+    ~function () {
+        var str='2018珠峰2015';
+        var reg=/\d+/g;
+        RegExp.prototype.myExec=function (attr){
+            if(!this.global){
+                return this.exec(str)[0];
+            }
+            var ary=[];
+            var cur;
+            while(cur=this.exec(attr)){
+                ary.push(cur[0]);
+            }
+            return ary;
+        }
+        // console.log(reg.myExec(str));
+        // console.log(str.match(reg));
+    }();
+
+    ~function () {
+        var reg =/(\d)+/;
+        var str = '2018zhufeng2019';
+        // console.log(reg.exec(str));
+        //正则加()后 , exec方法的返回值则多了个分组的内容
+
+         reg=/(\d)(\w)/;
+        console.log(reg.exec(str));//"20", "2", "0",
+    }();
+
+    ~function () {
+        reg=/(?:\d)(\w)/;
+        var str = '2018zhufeng2019';
+    }();
+
+    ~function () {
+        var str ='13123afas';
+       var str1= str.replace(/1/g,'0');//第二个参数若是一个值,替换的一个固定的值, 若想处理一些逻辑,是没法实现的 ,这时就能通过回调函数的方式来自定义替换规则
+        console.log(str1);
+
+        //若有量词,则分组里的内容是匹配字符的最后一个字符
+        //.replace(/(\d)+/
+        var str2=str.replace(/(\d+)/,function (n,m,x){
+            console.log(arguments);
+            //n 匹配的字符
+            // 中间还多个分组的值
+            //m 匹配字符的索引
+            //x 原字符串
+        })
+    }();
+
+    ~function () {
+        var str='111a22b33c44d';
+        //replace 的回调函数里,若原有的字符串需要被其他规则替换,则才需要些return
+        //回调函数执行的次数跟匹配的次数有关
+      var a=str.replace(/\d+/g,function (a){
+       //     return a*2 //拿return后面的内容去替换掉匹配的内让那个
+       //     return  a
+          //若没写return ,则用undefined替换匹配的内
+        });
+        console.log(a);
+        console.log(str);
+    }();
+
+    // 再理一下思路
+    ~function () {
+        var str = "14800";
+        var a = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
+
+        str.replace(/\d/g,function (){
+           return a[arguments[0]];
+        });
+    }();
+    //模板引擎的原理
+    ~function () {
+        var str='my name is {0} ,i am {1},i come from {2}';
+        var ary=['珠峰培训',8,'beijing'];
+      var a=str.replace(/\{(\d)\}/g,function (){
+          return ary[arguments[1]];
+        });
+        // console.log(a);
+    }();
+
+    //敏感词替换
+    ~function () {
+        var str ="由于大家比较喜欢看80后脱口秀池子的表演,所以想把池子请到珠峰培训来表演下,但是由于费用比较高,需要把珠峰员工的工资降低以凑得上池子的演出费,珠峰员工表示非常不满意!";
+
+        var reg=/(池子|珠峰员工|珠峰员工)/g;
+            str=str.replace(reg,function (a){
+            var result='';
+            console.log(a.length);
+            for (var i = 0; i < a.length; i++) {
+             result+='*';
+            }
+            return result
+        });
+        // console.log(str);
+    }();
+
+    ~function () {
+        //同级出现最多的字母和次数 (两种方法)
+        var str='aabbcccdddddfffffffAAA';
+     // var b=  str.match(/(\w)+/g);
+     //    console.log(b);
+        //1.统计每个字母出现的次数
+
+        //2.找出次数最多的字母
+    }();
+
+    ~function () {
+        var str='aabbcccdddddfffffffAAA';
+        var obj={};
+        var ary=[];
+        for (var i = 0; i < str.length; i++) {
+           if(obj[str[i]]){
+               obj[str[i]]++;
+           }else{
+               obj[str[i]]=1;
+           }
+
+        }
+        console.log(obj);
+
+        var maxStr,max=0;
+        for (var key in obj) {
+            if(obj[key]>max){
+                max=obj[key];
+                maxStr=key;
+            }else if(obj[key]==max){
+                max=obj[key];
+                maxStr+=','+key;
+            }
+        }
+        console.log(max, maxStr);
+
+    }();
+
+    ~function () {
+        var str='aabbcccdddddfffffffAAA';
+        var ary=str.split('');
+        ary.sort(function (a,b){
+            return a.localeCompare(b)
+        });
+        console.log();
+        var str1=ary.join('');
+        console.log(str1);
+        //正则匹配相同的字符
+        var reg=/(\w)\1*/g; //
+        var max=0,maxStr;
+        str1.replace(reg,function (n,m){
+            // console.log(m, n.length);
+            if(n.length>max){
+                max=n.length;
+                maxStr=m;
+            }else if(n.length==max){
+                maxStr+=','+m;
+            }
+        });
+        // console.log(max, maxStr);
+    }();
+
+    //邮箱地址
+    ~function () {
+        var url = 'http://www.zhufengpeixun.cn/stu/index.html?name=zxt&age=28&sex=0#teacher';
+       var reg=/([^?=&]+)=([^?=&]+)/;
+          var  obj={};
+            url.replace(reg,function (){
+                obj[arguments[1]]=arguments[2];
+            });
+    }();
+    //偷小说
+    </script>

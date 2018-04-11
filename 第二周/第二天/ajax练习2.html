@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    ~function () {
+        var obj=null
+        var xhr=new XMLHttpRequest();
+        xhr.open('get','data.json',false);
+        xhr.onreadystatechange=function (){
+            if(xhr.readyState===4 && /^2\d{2}$/.test(xhr.status)){
+                obj=utils.toJSON(xhr.responseText);
+            }
+        };
+        xhr.send(null);
+    }();
+
+    ~function () {
+            var olis=document.getElementsByTagName('li');
+            var ary=[];
+            [].forEach.call(olis,function (value,index){
+                ary.push(value);
+                console.log(value, index);
+            });
+        console.log(ary);
+    }();
+</script>

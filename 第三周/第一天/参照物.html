@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        /**{*/
+            /*margin: 0;*/
+            /*padding: 0;*/
+        /*}*/
+
+        div{
+            padding: 10px;
+            margin: 20px;
+            border: 15px solid darkblue;
+            position:absolute;
+        }
+        .outer {
+            width: 300px;
+            height: 300px;
+            background: rosybrown;
+            position:absolute;
+        }
+        .center{
+            width: 200px;
+            height: 200px;
+            background: rebeccapurple;
+            position:absolute;
+            /*padding-top: 15px;*/
+        }
+        .inner{
+            width: 100px;
+            height: 100px;
+            background: #bd2c00;
+        }
+    </style>
+</head>
+<body>
+<div class="outer">outer
+    <div class="center">center
+        <div class="inner">inner</div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    //css 定位元素如何找参照物
+    var inner = document.getElementsByClassName('inner')[0];
+    var outer= document.getElementsByClassName('outer')[0];
+    var center = document.getElementsByClassName('center')[0];
+
+    // console.log(inner.offsetParent); // body
+    // console.log(inner.offsetLeft);
+    // console.log(inner.offsetTop);
+    // console.log(document.body.offsetParent);
+    //    inner.offsetParent;
+    // console.log(inner.offsetLeft);
+    // console.log(a);
+    var center1=window.getComputedStyle(center,null)['padding-top'];
+    console.log(center1);
+    console.log(inner.offsetLeft - parseInt(center1));
+    ~function () {
+       function offset(ele){
+           var p=ele.offsetParent,
+               l=ele.offsetLeft,
+               t=ele.offsetTop;
+           while(p){    //若找到参照物则继续累加偏移量 ,若p的值为null 则不去找了
+               //若不是IE8才需要累加边框
+               if(navigator.userAgent.indexOf('MSIE 8.0')===-1){
+                   if(!/'MSIE 8\.0'/.test(navigator.userAgent)){
+                       l+=p.clientLeft;
+                       t+=p.clientTop;
+                   }
+               }
+               l+=p.offsetLeft;
+               t+=p.offsetTop;
+               p=p.offsetParent;
+           }
+           return {
+               l:l,
+               t:t
+           }
+       }
+        // console.log(offset(inner));
+    }();
+
+    ~function () {
+            function offsetAll(ele){
+               var p=ele.offsetParent,
+                   left=ele.offsetLeft,
+                   top=ele.offsetTop;
+               while(p){
+                   if(!/'MSIE 8\.0'/.test(navigator.userAgent)){
+                       left+=p.clientLeft;
+                       top+=p.clientTop;
+                   }
+                   left+=p.offsetLeft;
+                   top+=p.offsetTop;
+                   p=p.offsetParent;
+               }
+               return {
+                   left:left,
+                   top:top
+               }
+            }
+        console.log(offsetAll(inner));
+    }();
+
+    ~function () {
+        var offsetAll=function (ele){
+            var parent=ele.offsetParent,
+                left=ele.offsetLeft,
+                top=ele.offsetTop;
+
+            while (parent){
+                if(!/'MSIE 8\.0'/.test(navigator.userAgent)){     left+=parent.clientLeft;
+                    top+=parent.clientTop;}
+                left+=parent.offsetLeft;
+                top+=parent.offsetTop;
+                parent=parent.offsetParent;
+            }
+           return {
+                left:left,
+                top:top
+           }
+        };
+    }();
+
+    ~function () {
+        var offsetAll=function (ele){
+            var parent=ele.offsetParent,
+                left=ele.offsetLeft,
+                top=ele.offsetTop;
+            while(p){
+                if(!/'MISE 8\.0'/.test(navigator.userAgent)){
+                    left+=parent.clientLeft;
+                    top+=parent.clientTop;
+                }
+                left+=parent.offsetLeft;
+                top+=parent.offsetTop;
+            }
+            return {
+                left:left,
+                top:top
+            }
+        }
+    }();
+</script>

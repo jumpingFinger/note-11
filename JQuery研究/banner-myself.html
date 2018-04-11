@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <!--IMPORT CSS-->
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/banner.min.css">
+</head>
+<body>
+<div class="container">
+    <ul class="wrapper">
+        <!--<li class="slide">
+            <img src="" data-img="img/banner1.jpg" alt="">
+        </li>-->
+    </ul>
+    <ul class="focusBox clearfix">
+        <!--<li class="select"></li>
+        <li></li>
+        <li></li>
+        <li class="last"></li>-->
+    </ul>
+    <a href="javascript:;" class="arrow arrowLeft"></a>
+    <a href="javascript:;" class="arrow arrowRight"></a>
+</div>
+
+<div class="container">
+    <ul class="wrapper">
+        <!--<li class="slide">
+            <img src="" data-img="img/banner1.jpg" alt="">
+        </li>-->
+    </ul>
+    <ul class="focusBox clearfix"></ul>
+</div>
+
+<!--IMPORT JS-->
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    ~function ($) {
+        function pluginBanner(options) {
+            var $container = this,
+                $wrapper = $container.children('.wrapper'),
+                $focusBox = $container.children('.focusBox'),
+                $arrowLeft = $container.children('.arrowLeft'),
+                $arrowRight = $container.children('.arrowRight');
+            var $slideList = null,
+                $imgList = null,
+                $foucsList = null,
+                bannerData = null;
+
+            //=>init parameters  初始化参数
+            var _defalut = {
+                initIndex: 0,
+                autoInterval:2000,
+                showFocus:true,  //是否展示焦点
+                needFocus:true,  //焦点是展示还是点击滑上会有效果
+                eventFocus:'mouseover',  // 触发焦点事件的类型
+                showArrow:true,  // 这个轮播图是否有箭头
+                eventArrow:'click',
+                needAuto:true,    // 图片是否需要轮播
+                url:null
+            };
+
+            options && $.each(options, function (key, value) {
+                if (options.hasOwnProperty(key)) {
+                    _defalut[key] = value;
+                }
+            });
+            var initIndex = _defalut.initIndex,//这个是啥存到变量里???
+                autoInterval=_defalut.autoInterval,
+                showFocus=_defalut.showFocus,
+                needFocus=_defalut.needFocus,
+                eventFocus=_defalut.eventFocus,
+                showArrow=_defalut.showArrow,
+                eventArrow=_defalut.eventArrow,
+                needAuto=_defalut.needAuto;
+
+
+
+            //=>get data &bind data
+            ~function () {
+                $.ajax({
+                    url: _defalut.url,
+                    method: 'get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (result) {
+                        // console.log(result);
+                        bannerData = result;
+                    }//这事一个回调函数
+                });
+
+                var str = ``,
+                    strFocus = ``;
+                $.each(bannerData, function (index, item) {
+                    str += `<li class="slide">
+            <img src="" data-img="$(item.img)" alt="">
+        </li>`;
+                    if(showFocus){
+                        strFocus += `<li class="$(index===bannerData.length-1?'last':'')"></li>`;
+                        $wrapper.html(strFocus);
+                    }
+                    $wrapper.html(str);
+                    //=>get element  绑定完数据然后给3个变量赋值
+                    $slideList = $wrapper.children();
+                    $imgList = $wrapper.find('img');
+                    showFocus?$foucsList = $focusBox.children():null;
+                })
+            }();
+
+            //=>init show  默认展示哪一个
+            ~function () {
+                $slideList.css({
+                    opacity: 0,
+                    zIndex: 0
+                }).eq(initIndex).css({
+                    opacity: 1,
+                    zIndex: 1
+                });
+                if(showFocus){
+                    $foucsList.removeClass('select')
+                        .eq(initIndex).addClass('select');
+                }
+            }();
+
+            // =>lazy img  懒人加载
+//        window.onload=function (){};
+            $(window).on('load', function () {
+                $imgList.each(function (index, item) {
+                    var tempImg = new Image;
+                    tempImg.onload = function () {
+                        item.src = this.src;
+                        item.style.display = 'block';
+                        tempImg = null;
+                    };
+                    tempImg.src = $(item).data('img');//=>item.getAttribute('data-img')
+                });
+            });
+
+            //change banner 轮播图的切换
+            var autoTimer=null,
+//            autoInterval=2000,
+                count=bannerData.length;
+            needAuto?autoTimer=setTimeout(autoMove,autoInterval):null;
+            function autoMove(){
+                initIndex++;
+                initIndex===count? initIndex =0:null;
+                change();
+            }
+
+            // other change 鼠标滑过的时候暂停和开始自动切换
+            $container.on('mouseenter',function (){
+                needAuto?clearInterval(autoInterval):null;
+                if(showArrow){
+                    $arrowLeft.css('display','block');
+                    $arrowRight.css('display','block');
+                }
+            }).on('mouseleave',function (){
+                needAuto?autoTimer=setInterval(autoMove,autoInterval):null;
+                if(showArrow){
+                    $arrowLeft.css('display','none');
+                    $arrowRight.css('display','none');
+                }
+            });
+            //点击左右实现切换
+            if(showArrow){
+                $arrowRight.on(eventArrow,autoMove);
+                $arrowLeft.on(eventArrow,function (){
+                    initIndex--;
+                    initIndex===-1?initIndex=count-1:null;
+                    change();
+                });
+            }
+            //鼠标滑过焦点时候怎么做
+            if(showArrow && needFocus){
+                $foucsList.on('mouseenter',function () {
+                    var index=$(this).index();
+                    initIndex=index;
+                    change();
+                });
+            }
+            //change 自动实现切换
+            function change() {
+                var $curSlide=$slideList.eq(initIndex);//当前要操作的
+                $slideList.eq(initIndex).css('zIndex',1)
+                    .sibling().css('zIndex',0);
+                $slideList.stop().animate({opacity:1},200,function () {
+                    $curSlide.sibling().css('opacity',0);
+                });
+                //=>focus
+                if(showFocus){
+                    $foucsList.eq(initIndex).addClass('select')
+                        .siblings().removeClass('select');
+                }
+            }
+        }
+        $.fn.extend({
+            pluginBanner:pluginBanner
+        })
+    }(jQuery);
+    $().pluginBanner({
+
+});
+
+//    var $container=$('.container');
+    $('.container').each(function (index, item) {
+        if (index === 0) {
+            $(item).pluginBanner({
+                url: 'json/banner.json',
+                initIndex: 3,
+                eventFocus: 'click'
+            });
+        }
+
+        if (index === 1) {
+            $(item).pluginBanner({
+                url: 'json/banner2.json',
+                autoInterval: 3000,
+                needFocus: false,
+                showArrow: false,
+                needArrow: false
+            });
+        }
+    });
+</script>
+</body>
+</html>

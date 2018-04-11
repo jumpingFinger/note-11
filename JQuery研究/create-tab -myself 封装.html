@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <!--IMPORT CSS-->
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/tab.css">
+</head>
+<body>
+<div class="tabBox" id="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+    </ul>
+    <div class="con">
+        1
+    </div>
+    <div class="con">
+        2
+    </div>
+    <div class="con">
+        3
+    </div>
+</div>
+
+<div class="tabBox">
+    <ul class="tab clearfix">
+        <li>新闻</li>
+        <li>电影</li>
+        <li>动漫</li>
+        <li>科技</li>
+    </ul>
+    <div class="con">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+        </ul>
+    </div>
+    <div class="con">
+        <ul>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+        </ul>
+    </div>
+</div>
+
+<!--IMPORT JS-->
+<script src="js/jquery-1.11.3.min.js"></script>
+<!-- <script src="js/pluginTab.min.js"></script> -->
+
+<script>
+    ~function ($) {
+      //  function plugTab(selector) {
+        function plugTab(options) {
+            //this :当前要实现选项卡的容器,你想让那个选项卡实现切换
+         //   var $tabBox=$(selector),
+              var  $tabBox=this,
+                $tabList=$tabBox.find('.tab>li'),
+                $conList =$tabBox.children('.con');
+              //=>init parameters
+            var _defalut ={
+                initIndex:0,
+                eventType:'click'
+            };
+            options && $.each(options,function (key,value){
+                if(options.hasOwnProperty(key)){
+                    _defalut[key]=value;
+                }
+            });
+
+            //=>show default 默认展示最新的,先让tabList 和 conList 默认样式都清空
+            //$tabList.eq(_defalut,initIndex).addClass('select').sibling().removeClass('select');
+            change(_defalut.initIndex);
+
+
+            //bind event   绑定事件
+            $tabList.on(_defalut.eventType,function (){
+               var $this=$(this),
+                   index=$this.index();
+                change(index);
+            });
+
+            function change(index){
+                $tabList.eq(index).addClass('select')
+                    .siblings().removeClass('select');
+                $conList.eq(index).addClass('select')
+                    .siblings().removeClass('select');
+            }
+
+        }
+        //JQ的扩展插件有下面两种方法:
+  //      $.extend();
+   //     $.fn.extend();
+         $.fn.extend({
+             plugTab :plugTab
+         });
+    }(jQuery);//1.这里jQ有值才能用$来实现东西 2. 为了防止多库共存把$转让,但Jquery确没有转让,这里面的$符肯定是jQuery而不是别的库
+    // $('#tabBox').plugTab(
+    //     { eventType : 'mouseover'}
+    // );
+
+$('.tabBox').each(function (index){
+    switch(index){
+        case 0:{
+            $(this).plugTab();
+            break;
+        } case 1:{
+            $(this).plugTab(
+                {initIndex:1}
+            );
+            break;
+        }case 2:{
+        $(this).plugTab(
+            {initIndex:2,eventType :'mouseover'}
+        );
+    }
+    }
+})
+
+
+
+</script>
+</body>
+</html>

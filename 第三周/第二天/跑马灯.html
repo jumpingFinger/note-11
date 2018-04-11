@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div{
+            width: 200px;
+            height: 200px;
+            border: 5px solid darkgrey;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="div">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+</body>
+</html>
+<script>
+    ~function () {
+        var oDiv=document.getElementById('div');
+        var a=oDiv.scrollHeight;
+        var b=oDiv.clientHeight;
+        var c=oDiv.scrollTop;
+        console.log(a, b,c);
+        var d=0;
+        var timer=window.setInterval(function (){
+            if(oDiv.scrollTop>=a-b){
+                oDiv.scrollTop=0;
+            }
+            d++;
+            console.log(d);
+            oDiv.scrollTop+=10;
+            console.log(c);
+        },500);
+    }();
+
+    ~function () {
+        setInterval(function(){
+            var h=oDiv.scrollTop++;
+            if(h==oDiv.scrollTop){
+                oDiv.scrollTop=0;
+            }
+        },500)
+    }();
+
+    ~function () {
+        var timer =null;
+        function move(){
+            clearTimeout(timer);//先清除掉上次的定时器'
+            var h=oDiv.scrollTop++;
+            if(h==oDiv.scrollTop){
+                oDiv.scrollTop=0;
+            }
+            timer=setTimeout(arguments.callee,20);//重新每次在开启一个定时器
+        }
+        move();
+    }();
+
+</script>

@@ -1,0 +1,87 @@
+//@color:red;
+@color:color;
+@select:box;
+@url:'../img';
+
+//.box{
+.@{select}{
+  //color:@color;
+  @{color}:red;
+  background-@{color}:yellow ;
+  width: 100px;
+  height: 100px;
+  //background:@color;
+  //background: url("@{url}/text.png");
+  //background-size: 100% 100%;
+
+  //&:hover{ // &
+  //  background:darken(@color,20%)
+  //}
+}
+
+
+
+//.a() {    //若加个()表示不仅仅调用 ,  但不会把编译的结果在css文件里显示出来
+////.a{
+//  width: 100px;
+//  height: 100px;
+//}
+//.box{
+//  .a;
+//  background: red;
+//}
+
+.a{
+  width: 100px;
+  height: 100px;
+}
+.box{
+  &:extend(.a);
+  background: red;
+}
+
+.box:extend(.a){
+  //&:extend(.a);
+  background: red;
+}
+
+//定义一个函数
+.transition(@property:all,@duration:1s,@timing-function:ease,@delay:0s){
+  -webkit-transition: @property @duration @timing-function @delay;
+  -moz-transition:@property @duration @timing-function @delay;
+  -ms-transition:@property @duration @timing-function @delay;
+  -o-transition: @property @duration @timing-function @delay;
+  transition: @property @duration @timing-function @delay;
+}
+.box{
+  .transition;
+}
+.average(@x,@y){
+  @result:@x+@y/2
+}
+.box{
+  .average(10,20);
+  padding:unit(@result);
+}
+
+//运算符
+.mixin (@a) when(lightness(@a)>=50%){
+  background-color: red;
+}
+.mixin (@a) when(lightness(@a)<50%){
+  background-color: red;
+}
+.box5{
+  .mixin(#555);
+}
+
+//嵌套
+.box5{
+  color: #0b900d;
+  ul{
+    list-style: none;
+    a{
+
+    }
+  }
+}
